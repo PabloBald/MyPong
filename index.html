@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>My Pong</title>
+</head>
+<body>
+    <audio id="ping">
+      <source src="sound/ping_pong_8bit_beeep.ogg"> 
+    </audio>
+    <audio id="pong">
+      <source src="sound/ping_pong_8bit_plop.ogg"> 
+    </audio>
+    <audio id="goal">
+      <source src="sound/ping_pong_8bit_peeeeeep.ogg"> 
+    </audio>
+    <div id="container" style="background-color: red;display: flex;">
+      <div id="scoreP1" class="scoreBox" >
+        <br><br><br>
+        PLAYER 1 SCORE
+        <br>
+        <span id="p1Score" ></span>
+      </div>
+      <canvas id="canvas"></canvas>
+      <div id="scoreP2" class="scoreBox">
+        <br><br><br>
+      PLAYER 2 SCORE
+      <br>
+      <span id="p2Score"></span>
+      </div>
+    </div>  
+    <script src="js.js"></script>
+</body>
+</html>
