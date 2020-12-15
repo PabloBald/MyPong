@@ -8,7 +8,16 @@ const p1score = document.getElementById("p1Score");
 const p2score = document.getElementById("p2Score");
 
 //Adding a event listener to DOM for the inputs
-document.addEventListener('keydown',inputs,false);
+window.addEventListener('keydown',menumov,false)
+//Save key states, and modify the paddle positions by the states
+var keyState = {}; 
+window.addEventListener('keydown',function(e){
+    keyState[e.keyCode || e.which] = true;
+},true);    
+window.addEventListener('keyup',function(e){
+    keyState[e.keyCode || e.which] = false;
+},true);
+
 //Canvas style
 canvas.style.backgroundColor = "black";
 canvas.height = 800;
@@ -18,7 +27,7 @@ canvas.style.marginTop = "0px"
 //Variables
 
 let intervalId= setInterval(animate,1000/60)
-let pSpeed = 50 //Paddle Speed
+let pSpeed = 5 //Paddle Speed
 let start = false //Initialize start with FALSE value to show the "Press START menu"
 let touchCount = 0 //Touch counter
 let first = true //Variable used to switch texts between pressStart or pause
@@ -45,7 +54,7 @@ let ball = {
     radiusY: canvas.height/60,
     xDirection: getRandomInt(2),
     yDirection: getRandomInt(2),
-    speed : 2
+    speed : 3
 }
 
 //Functions
@@ -57,6 +66,22 @@ function animate(){
             //Create paddle for each player
             createPaddle(paddle1.x,paddle1.y,paddle1.width,paddle1.height)   //Player 1
             createPaddle(paddle2.x-paddle2.width-2,paddle2.y,paddle2.width,paddle2.height)  //Player2
+            // New movement system for paddles added
+            //Paddle1
+            if (keyState[87]){
+                paddle1.y -= 1 *pSpeed;
+            }    
+            if (keyState[83] || keyState[68]){
+                paddle1.y += 1*pSpeed;
+            }
+            //Paddle2
+            if (keyState[38]){
+                paddle2.y -= 1 *pSpeed;
+            }    
+            if (keyState[40] || keyState[68]){
+                paddle2.y += 1*pSpeed;
+            }
+
             if(paddle1.y <= 0){
                 paddle1.y = 0
             }
@@ -69,6 +94,8 @@ function animate(){
             if(paddle2.y+paddle2.height >= canvas.height){
                 paddle2.y = canvas.height-paddle2.height
             }
+
+            
             createBall(ctx)
             ballMove()
             
@@ -160,28 +187,16 @@ function reset(){
     setPaddleY(paddle1,paddle1.height)
     setPaddleY(paddle2,paddle2.height)
     //Reset ball speed
-    ball.speed = 2
+    ball.speed = ball.speed
     //Reset touch count
     touchCount = 0
 }
 function setPaddleY(paddle,height){
     paddle.y = canvas.height/2-height/2
 }
-function inputs(e){
+function menumov(e){
     e.preventDefault()
     e = e.keyCode;
-    if(e==87&& paddle1.y != 0 ){
-        paddle1.y = paddle1.y-1*pSpeed
-    }
-    if(e==83 && paddle1.y+paddle1.height != canvas.height){
-        paddle1.y = paddle1.y+1*pSpeed
-    }
-    if(e==38&& paddle2.y != 0 ){
-        paddle2.y = paddle2.y-1*pSpeed
-    }
-    if(e==40 && paddle2.y+paddle2.height != canvas.height){
-        paddle2.y = paddle2.y+1*pSpeed
-    }
     if(e==82){
         reset()
         resetScore()
@@ -211,6 +226,59 @@ function inputs(e){
          return intervalId
   }        
 }
+function inputsDown(e){
+    e.preventDefault()
+    e = e.keyCode;
+    if(e==87&& paddle1.y != 0 ){
+        paddle1.y = paddle1.y-1*pSpeed
+    }
+    if(e==83 && paddle1.y+paddle1.height != canvas.height){
+        paddle1.y = paddle1.y+1*pSpeed
+    }
+    if(e==38&& paddle2.y != 0 ){
+        paddle2.y = paddle2.y-1*pSpeed
+    }
+    if(e==40 && paddle2.y+paddle2.height != canvas.height){
+        paddle2.y = paddle2.y+1*pSpeed
+    }
+    
+}
+
+function inputsUp(e){
+    
+    e = e.keyCode;
+    if(e==87&& paddle1.y != 0 ){
+        paddle1.y = paddle1.y-1*pSpeed
+    }
+    if(e==83 && paddle1.y+paddle1.height != canvas.height){
+        paddle1.y = paddle1.y+1*pSpeed
+    }
+    if(e==38&& paddle2.y != 0 ){
+        paddle2.y = paddle2.y-1*pSpeed
+    }
+    if(e==40 && paddle2.y+paddle2.height != canvas.height){
+        paddle2.y = paddle2.y+1*pSpeed
+    }
+    e.preventDefault()
+}
+function inputsPressed(e){
+    
+    e = e.keyCode;
+    if(e==87&& paddle1.y != 0 ){
+        paddle1.y = paddle1.y-1*pSpeed
+    }
+    if(e==83 && paddle1.y+paddle1.height != canvas.height){
+        paddle1.y = paddle1.y+1*pSpeed
+    }
+    if(e==38&& paddle2.y != 0 ){
+        paddle2.y = paddle2.y-1*pSpeed
+    }
+    if(e==40 && paddle2.y+paddle2.height != canvas.height){
+        paddle2.y = paddle2.y+1*pSpeed
+    }
+    e.preventDefault()
+}
+
 function playAudio(audio){
     audio.play();
 }
